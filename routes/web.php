@@ -14,10 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {return view('welcome');});
 
-Route::get('/index', [Controller::class, 'index']);
+//Route::get('/index', [Controller::class, 'index']);
 Route::get('/test', [Controller::class, 'test']);
 Route::get('/api', [Controller::class, 'api']);

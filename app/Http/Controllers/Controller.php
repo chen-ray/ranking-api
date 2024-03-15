@@ -63,7 +63,7 @@ class Controller extends BaseController
         $action = $request->get('action');
 
         if ($action == 'crawler') {
-            dispatch(new BadmintonCrawler());
+            dispatch(new BadmintonCrawler(6,1));
         } else if ($action == 'breakdown' && $request->has('id')) {
             dispatch(new Breakdown(Ranking::find($request->get('id'))));
         } else if ($action == 'hello') {
@@ -139,7 +139,8 @@ class Controller extends BaseController
 
     public function countryUrl(): JsonResponse
     {
-        $countries = Country::where('flag_name_svg', 'not like', 'http%')->get();
+        //$countries = Country::where('flag_name_svg', 'not like', 'http%')->get();
+        $countries = Country::all();
         log::info('要处理的数据条数=>' . $countries->count());
         foreach ($countries as $country) {
             if (Str::startsWith($country->flag_url, '/')) {
