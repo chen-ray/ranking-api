@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-use App\Jobs\BadmintonCrawler;
-use App\Jobs\HandleCountryImg;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Octane\Facades\Octane;
 
 class AppServiceProvider extends ServiceProvider
 {

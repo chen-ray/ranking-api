@@ -19,7 +19,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Laravel\Octane\Facades\Octane;
 use Illuminate\Http\Request;
 
@@ -143,9 +142,7 @@ class Controller extends BaseController
         $countries = Country::all();
         log::info('要处理的数据条数=>' . $countries->count());
         foreach ($countries as $country) {
-            if (Str::startsWith($country->flag_url, '/')) {
-                dispatch(new HandleCountryImg($country));
-            }
+            dispatch(new HandleCountryImg($country));
         }
         return response()->json(['msg' => 'ok'], 200);
     }

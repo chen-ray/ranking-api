@@ -21,7 +21,7 @@ class RankingResource extends JsonResource
             'tournaments'   => $this->tournaments,
             'points'        => $this->points,
             'player1_name'  => $this->player1->name,
-            'country_img'   => $this->player1->withCountry->flag_name_svg,
+            'country_img'   => 'https://blog-cdn.chen-ray.cn/countries/' . $this->player1->withCountry->flag_name_svg,
             'country_name'  => $this->player1->withCountry->name,
             'country_id'    => $this->player1->country_id,
             'p1_country'    => $this->p1_country,
@@ -30,8 +30,8 @@ class RankingResource extends JsonResource
             'player2_birth' => null,
         ];
         if($this->player2) {
-            $data['player2_name'] = $this->player2->name;
-            $data['player2_birth'] = $this->player2->date_of_birth;
+            $data['player2_name']   = $this->player2->name;
+            $data['player2_birth']  = $this->player2->date_of_birth;
         }
         return $data;
     }

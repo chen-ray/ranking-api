@@ -2,6 +2,7 @@
 
 namespace App\Services\Qcloud;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Qcloud\Cos\Client;
 
@@ -59,19 +60,27 @@ class Cos
             // 请求成功
             // Log::info($result);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // 请求失败
             Log::error($e);
         }
         return $result;
     }
 
+    public function doesObjectExist($key): bool
+    {
+        return $this->cosClient->doesObjectExist(
+            $this->bucket,      //存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
+            $key               //此处的 key 为对象键
+        );
+    }
+
     public function getObjectUrl($key): mixed{
         try {
-            return $signedUrl = $this->cosClient->getObjectUrl($this->bucket, $key, '+24 hours');
+            return $this->cosClient->getObjectUrl($this->bucket, $key, '+24 hours');
         }
         catch
-        (\Exception $e) {
+        (Exception $e) {
             // 请求失败
             print_r($e);
         }
@@ -83,7 +92,7 @@ class Cos
         try {
             // 请求成功
             return $this->cosClient->getObjectUrlWithoutSign($this->bucket, $key);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // 请求失败
             print_r($e);
             return false;

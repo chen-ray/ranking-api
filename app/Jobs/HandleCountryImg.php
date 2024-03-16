@@ -33,34 +33,39 @@ class HandleCountryImg implements ShouldQueue
      */
     public function handle(): void
     {
-        //Log::debug('enter job HandleCountryImg handle');
         //https://extranet.bwf.sport/docs/flags-svg/india_1.svg
         try{
             $folderPath = storage_path('framework/cache/country/');
             if (!file_exists($folderPath)) {
                 mkdir($folderPath, 0777, true);
                 Log::debug( '文件夹创建成功！');
-            } else {
-                Log::debug( '文件夹已存在！');
             }
 
-            $result = Str::startsWith($this->country->flag_name_svg, 'http');
-            if($result === true) {
-                return;
+            $svg = $this->country->flag_name_svg;
+            if(Str::startsWith($this->country->flag_name_svg, 'http')) {
+                $tmp = explode('/', $this->country->flag_name_svg);
+                $svg = end($tmp);
             }
-            // 处理
-            $url    = 'https://extranet.bwf.sport/docs/flags-svg/' . $this->country->flag_name_svg;
-            Log::debug('url=>' . $url);
 
-            $path   = storage_path('framework/cache/country/' . $this->country->flag_name_svg);
-            $content = file_get_contents($url);
-            file_put_contents($path, $content);
+            $path   = storage_path('framework/cache/country/' . $svg);
+            if ( !file_exists($path) ) {
+                // if file not exists , get it
+                $url    = 'https://extranet.bwf.sport/docs/flags-svg/' . $svg;
+                Log::debug('url=>' . $url);
+
+                $content = file_get_contents($url);
+                file_put_contents($path, $content);
+            }
+
             $cos    = new Cos();
-            $key    = 'countries/' . $this->country->flag_name_svg;
-            $cos->upload($path, $key);
-            $url    = $cos->getObjectUrlWithoutSign($key);
-            Log::debug('cos url=>' . $url);
-            $this->country->flag_name_svg = $url;
+            $key    = 'countries/' . $svg;
+            if($cos->doesObjectExist($key)) {
+                Log::debug('COS already has this object ');
+            } else {
+                $cos->upload($path, $key);
+            }
+
+            $this->country->flag_name_svg = $svg;
             $this->country->save();
         }catch (Exception $e) {
             Log::error('HandleCountryImg handle error=>' . $e->getTraceAsString());
