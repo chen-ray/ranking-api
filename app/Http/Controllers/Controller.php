@@ -57,7 +57,7 @@ class Controller extends BaseController
         //$badminton = new BadmintonCrawler();
         //$badminton->rankingbreakdown();
         if (!$request->has('action')) {
-            echo 'no action';
+            echo 'no action11';
         }
         $action = $request->get('action');
 

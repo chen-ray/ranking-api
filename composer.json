@@ -9,18 +9,20 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-openssl": "*",
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^10.0",
+        "laravel/horizon": "^5.23",
         "laravel/octane": "^2.3",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "predis/predis": "^2.2",
-        "qcloud/cos-sdk-v5": "^2.6",
-        "ext-openssl": "*"
+        "qcloud/cos-sdk-v5": "^2.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.10",
         "fakerphp/faker": "^1.9.1",
+        "laravel/breeze": "^1.29",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.28",
         "mockery/mockery": "^1.4.4",
