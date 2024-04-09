@@ -72,6 +72,7 @@ class Player extends Model
             $country    = $data['country_model'];
             Country::store($country);
         } catch (InvalidArgumentException $e) {
+            Log::error('data', $data);
             Log::error($e);
         }
     }
